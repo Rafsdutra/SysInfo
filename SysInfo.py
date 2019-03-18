@@ -2,8 +2,8 @@ import sys
 import os
 import psutil
 import platform
-import pdfkit
-from fpdf import FPDF
+# import pdfkit
+# from fpdf import FPDF
 
 
 def infoBasicas():
@@ -96,10 +96,6 @@ def main():
 #     pdf.set_font("Arial", size=12)
 #     pdf.cell(200, 10, txt=main(),  align="C")
 #     pdf.output("SysInfo.pdf")
-
-def pdfkitTest():
-    pdfkit.from_string(main(), 'SysInfo.pdf')
-
 
 if __name__ == '__main__':
     infoBasicas()
