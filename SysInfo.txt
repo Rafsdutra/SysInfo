@@ -1,0 +1,1 @@
+/dev/loop27 153.8M 0B 153.8M 100 squashfs /snap/chromium/660 
