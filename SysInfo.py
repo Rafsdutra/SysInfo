@@ -41,8 +41,10 @@ def infoBasicas():
 def cpuInfo():
     infoMarca = str(cpuinfo.get_cpu_info()['brand'])
     infoFrequencia = str(cpuinfo.get_cpu_info()['hz_advertised'])
-    print(infoMarca)
-    print(infoFrequencia)
+    print('======================== Informações do Processador ==============================\n\n')
+    print('Marca/Modelo do Processador: ' + infoMarca)
+    print('Frequência: ' + infoFrequencia)
+    print('\n\n')
     f = open('SysInfo.txt', 'a+')
     f.write('======================== Informações do Processador ==============================\n\n')
     f.write('Marca/Modelo do Processador: ' + infoMarca)
@@ -51,8 +53,9 @@ def cpuInfo():
     f.write('\n\n')
     f.close()
 
+#Conversão de Bytes para MB
 def bytesParaMB(n):
-    #Conversão de Bytes para MB
+
     # >>> bytesParaMB(10000)
     # '9.8K'
     # >>> bytesParaMB(100001221)
