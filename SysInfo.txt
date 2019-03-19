@@ -12,7 +12,7 @@ Frequência: 2.5000 GHz
 ============================ Unidades de Armazenamento ====================================================
 
 Dispositivo          Total     Usado    Livre   Uso    Tipo   Partição
-/dev/sda6           117.2G    24.4G    86.8G    22%      ext4  /
+/dev/sda6           117.2G    24.5G    86.7G    22%      ext4  /
 /dev/loop0            2.4M     2.4M       0B   100%  squashfs  /snap/gnome-calculator/180
 /dev/loop2           34.9M    34.9M       0B   100%  squashfs  /snap/gtk-common-themes/1122
 /dev/loop1           13.0M    13.0M       0B   100%  squashfs  /snap/gnome-characters/139
@@ -63,69 +63,7 @@ Frequência: 2.5000 GHz
 ============================ Unidades de Armazenamento ====================================================
 
 Dispositivo          Total     Usado    Livre   Uso    Tipo   Partição
-/dev/sda6           117.2G    24.4G    86.8G    22%      ext4  /
-/dev/loop0            2.4M     2.4M       0B   100%  squashfs  /snap/gnome-calculator/180
-/dev/loop2           34.9M    34.9M       0B   100%  squashfs  /snap/gtk-common-themes/1122
-/dev/loop1           13.0M    13.0M       0B   100%  squashfs  /snap/gnome-characters/139
-/dev/loop5           13.0M    13.0M       0B   100%  squashfs  /snap/gnome-characters/103
-/dev/loop6           14.6M    14.6M       0B   100%  squashfs  /snap/gnome-logs/45
-/dev/loop7           14.5M    14.5M       0B   100%  squashfs  /snap/gnome-logs/37
-/dev/loop3          271.8M   271.8M       0B   100%  squashfs  /snap/pycharm-community/117
-/dev/loop9            4.2M     4.2M       0B   100%  squashfs  /snap/ngrok/11
-/dev/loop10           3.8M     3.8M       0B   100%  squashfs  /snap/gnome-system-monitor/57
-/dev/loop4          260.2M   260.2M       0B   100%  squashfs  /snap/phpstorm/81
-/dev/loop12          35.4M    35.4M       0B   100%  squashfs  /snap/gtk-common-themes/1198
-/dev/loop13           2.2M     2.2M       0B   100%  squashfs  /snap/gnome-calculator/260
-/dev/loop15          91.0M    91.0M       0B   100%  squashfs  /snap/core/6405
-/dev/loop16         140.8M   140.8M       0B   100%  squashfs  /snap/gnome-3-26-1604/78
-/dev/loop19         146.1M   146.1M       0B   100%  squashfs  /snap/chromium/645
-/dev/loop20         260.4M   260.4M       0B   100%  squashfs  /snap/phpstorm/87
-/dev/loop8          153.8M   153.8M       0B   100%  squashfs  /snap/chromium/660
-/dev/loop11           3.8M     3.8M       0B   100%  squashfs  /snap/gnome-system-monitor/51
-/dev/loop22         140.8M   140.8M       0B   100%  squashfs  /snap/gnome-3-26-1604/82
-/dev/loop24          91.1M    91.1M       0B   100%  squashfs  /snap/core/6531
-/dev/loop27         140.8M   140.8M       0B   100%  squashfs  /snap/gnome-3-26-1604/74
-/dev/loop18         260.2M   260.2M       0B   100%  squashfs  /snap/phpstorm/77
-/dev/loop14          34.6M    34.6M       0B   100%  squashfs  /snap/gtk-common-themes/818
-/dev/loop23         146.2M   146.2M       0B   100%  squashfs  /snap/chromium/621
-/dev/loop25          53.8M    53.8M       0B   100%  squashfs  /snap/core18/731
-/dev/loop26          53.8M    53.8M       0B   100%  squashfs  /snap/core18/782
-/dev/loop28         270.6M   270.6M       0B   100%  squashfs  /snap/pycharm-community/112
-/dev/loop17         270.6M   270.6M       0B   100%  squashfs  /snap/pycharm-community/108
-/dev/loop21          53.8M    53.8M       0B   100%  squashfs  /snap/core18/719
-/dev/loop29          91.0M    91.0M       0B   100%  squashfs  /snap/core/6350
-/dev/sda2            96.0M    29.8M    66.2M    31%      vfat  /boot/efi
-/dev/loop30           1.0M     1.0M       0B   100%  squashfs  /snap/gnome-logs/57
-/dev/loop31           3.8M     3.8M       0B   100%  squashfs  /snap/gnome-system-monitor/70
-/dev/loop32           4.1M     4.1M       0B   100%  squashfs  /snap/gnome-calculator/352
-/dev/loop33          14.8M    14.8M       0B   100%  squashfs  /snap/gnome-characters/206
-/dev/loop34         143.5M   143.5M       0B   100%  squashfs  /snap/gnome-3-28-1804/23
-============================ Informações Básicas ===============================
-SO: Linux
-Versão do SO: 4.15.0-46-generic
-Nome da Máquina: rafael-Inspiron-5457
-Arquitetura: x86_64
-
-======================== Informações do Processador ==============================
-
-Marca/Modelo do Processador: Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz
-Frequência: 2.5000 GHz
-
-============================ Informações Básicas ===============================
-SO: Linux
-Versão do SO: 4.15.0-46-generic
-Nome da Máquina: rafael-Inspiron-5457
-Arquitetura: x86_64
-
-======================== Informações do Processador ==============================
-
-Marca/Modelo do Processador: Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz
-Frequência: 2.5000 GHz
-
-============================ Unidades de Armazenamento ====================================================
-
-Dispositivo          Total     Usado    Livre   Uso    Tipo   Partição
-/dev/sda6           117.2G    24.4G    86.8G    22%      ext4  /
+/dev/sda6           117.2G    24.5G    86.7G    22%      ext4  /
 /dev/loop0            2.4M     2.4M       0B   100%  squashfs  /snap/gnome-calculator/180
 /dev/loop2           34.9M    34.9M       0B   100%  squashfs  /snap/gtk-common-themes/1122
 /dev/loop1           13.0M    13.0M       0B   100%  squashfs  /snap/gnome-characters/139
