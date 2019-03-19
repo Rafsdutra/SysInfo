@@ -3,10 +3,8 @@ import os
 import psutil
 import platform
 import cpuinfo
-
-
-# import pdfkit
-# from fpdf import FPDF
+import ctypes
+from fpdf import FPDF
 
 
 def infoBasicas():
@@ -35,6 +33,30 @@ def infoBasicas():
     f.write('Arquitetura: ' + arquitetura + '\n')
     f.write('\n')
     f.close()
+
+#Informações detalhadas do HD (só funciona no Windows)
+
+# def HDinfo():
+#     kernel32 = ctypes.windll.kernel32
+#     volumeNameBuffer = ctypes.create_unicode_buffer(1024)
+#     fileSystemNameBuffer = ctypes.create_unicode_buffer(1024)
+#     serial_number = None
+#     max_component_length = None
+#     file_system_flags = None
+#
+#     rc = kernel32.GetVolumeInformationW(
+#         ctypes.c_wchar_p("F:\\"),
+#         volumeNameBuffer,
+#         ctypes.sizeof(volumeNameBuffer),
+#         serial_number,
+#         max_component_length,
+#         file_system_flags,
+#         fileSystemNameBuffer,
+#         ctypes.sizeof(fileSystemNameBuffer)
+#     )
+#
+#     print(volumeNameBuffer.value)
+#     print(fileSystemNameBuffer.value)
 
 
 # Pega as informações do processador
@@ -124,16 +146,79 @@ def main():
         print("-------------------------------------------------------------------------------------------------------------")
 
 
-# def printPDF():
-#     pdf = FPDF()
-#     pdf.add_page()
-#     pdf.set_font("Arial", size=12)
-#     pdf.cell(200, 10, txt=main(),  align="C")
-#     pdf.output("SysInfo.pdf")
+title = 'Especificações do PC - 9TALK'
+
+class PDF(FPDF):
+    def header(self):
+        # Arial bold 15
+        self.set_font('Arial', 'B', 15)
+        #  Calcula largura e posição do titulo
+        w = self.get_string_width(title) + 6
+        self.set_x((210 - w) / 2)
+        # Cores do Frame, do background e dos textos
+        self.set_draw_color(0, 80, 180)
+        self.set_fill_color(230, 230, 0)
+        self.set_text_color(220, 50, 50)
+        # Espessura do frame (1 mm)
+        self.set_line_width(1)
+        # TITULO
+        self.cell(w, 9, title, 1, 1, 'C', 1)
+        # Quebra de linha
+        self.ln(10)
+
+    def footer(self):
+        #  Posição a 1,5cm de baixo pra cima
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Arial', 'I', 8)
+        # Cor do texto em cinza
+        self.set_text_color(128)
+        # Número da página
+        self.cell(0, 10, 'Página:  ' + str(self.page_no()), 0, 0, 'C')
+
+    def arquivo_doc(self, num, label):
+        # Arial 12
+        self.set_font('Arial', '', 12)
+        # Background color
+        self.set_fill_color(200, 220, 255)
+        # Title
+        # self.cell(0, 6, 'Chapter %d : %s' % (num, label), 0, 1, 'L', 1)
+        # Line break
+        self.ln(4)
+
+    def arquivo_corpo(self, name):
+        # Read text file
+        with open(name, 'rb') as fh:
+            txt = fh.read().decode('latin-1')
+        # Times 12
+        self.set_font('Times', '', 12)
+        # Output justified text
+        self.multi_cell(0, 5, txt)
+        # Line break
+        self.ln()
+        # Mention in italics
+        self.set_font('', 'I')
+        self.cell(0, 5, '(Fim do Arquivo)')
+
+    def print_arquivo(self, num, title, name):
+        self.add_page()
+        self.arquivo_doc(num, title)
+        self.arquivo_corpo(name)
+
+pdf = PDF()
+pdf.set_title(title)
+pdf.set_author('Rafael')
+pdf.print_arquivo(1, 'Especificações', 'SysInfo.txt')
+
+pdf.output('SysInfo.pdf', 'F')
+
+
 
 if __name__ == '__main__':
     infoBasicas()
     cpuInfo()
+    # HDinfo()
     main()
+    PDF()
 
 print(" ")
