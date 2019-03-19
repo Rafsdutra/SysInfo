@@ -9,6 +9,7 @@ import platform
 
 
 def infoBasicas():
+    # ============================== Tela ========================================
     print(" ")
     print("============================ Informações Básicas ===============================")
     print('SO   :', platform.system())
@@ -16,12 +17,15 @@ def infoBasicas():
     print('Host     :', platform.node())
     print('Arquitetura:', platform.processor())
     print(" ")
+    # ==============================================================================
 
+    #  Variáveis contendo as informações para serem usadas no file
     so = str(platform.system())
     versaoSO = str(platform.release())
     host = str(platform.node())
     arquitetura = str(platform.processor())
 
+    # Inserção das informações no file txt
     f = open('SysInfo.txt', 'a+')
     f.write('============================ Informações Básicas ===============================\n')
     f.write('SO: ' + so + '\n')
@@ -33,6 +37,7 @@ def infoBasicas():
 
 
 def bytesParaMB(n):
+    #Conversão de Bytes para MB
     # >>> bytesParaMB(10000)
     # '9.8K'
     # >>> bytesParaMB(100001221)
@@ -50,21 +55,30 @@ def bytesParaMB(n):
 
 
 def main():
+    # ============================================ Tela ===========================================#
     print("============================ Unidades de Armazenamento ====================================================")
     print(" ")
+    # ============================================================================================= #
 
+    # Inserção do cabeçalho do programa no file txt
     f = open("SysInfo.txt", "a+")
     f.write("============================ Unidades de Armazenamento ====================================================\n\n")
     f.write("Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
+    f.close()
+
     templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
+    # ====================================== Tela ================================== #
     print(templ % ("Dispositivo", "Total", "Usado", "Livre", "Uso ", "Tipo",
                    "Partição"))
+    # ============================================================================== #
 
+    # Laço contendo partições que não sejam CD-ROM
     for part in psutil.disk_partitions(all=False):
         if os.name == 'nt':
             if 'cdrom' in part.opts == '':
                 continue
         uso = psutil.disk_usage(part.mountpoint)
+        # ====================== Tela ===================== #
         print(templ % (
             part.device,
             bytesParaMB(uso.total),
@@ -73,8 +87,10 @@ def main():
             int(uso.percent),
             part.fstype,
             part.mountpoint))
+        # ================================================= #
 
 
+        #Inserção das informações no file txt
         f = open("SysInfo.txt", "a+")
         f.write(str(templ % (
             part.device,
@@ -100,6 +116,5 @@ def main():
 if __name__ == '__main__':
     infoBasicas()
     main()
-    # pdfkitTest()
-    # printPDF()
+
 print(" ")
