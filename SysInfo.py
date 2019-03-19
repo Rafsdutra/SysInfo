@@ -2,6 +2,8 @@ import sys
 import os
 import psutil
 import platform
+
+
 # import pdfkit
 # from fpdf import FPDF
 
@@ -19,6 +21,15 @@ def infoBasicas():
     versaoSO = str(platform.release())
     host = str(platform.node())
     arquitetura = str(platform.processor())
+
+    f = open('SysInfo.txt', 'a+')
+    f.write('============================ Informações Básicas ===============================\n')
+    f.write('SO: ' + so + '\n')
+    f.write('Versão do SO: ' + versaoSO + '\n')
+    f.write('Nome da Máquina: ' + host + '\n')
+    f.write('Processador: ' + arquitetura + '\n')
+    f.write('\n')
+    f.close()
 
 
 def bytesParaMB(n):
@@ -39,7 +50,12 @@ def bytesParaMB(n):
 
 
 def main():
-    print("============================ Unidades de Armazenamento =============================")
+    print("============================ Unidades de Armazenamento ====================================================")
+    print(" ")
+
+    f = open("SysInfo.txt", "a+")
+    f.write("============================ Unidades de Armazenamento ====================================================\n\n")
+    f.write("Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
     templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
     print(templ % ("Dispositivo", "Total", "Usado", "Livre", "Uso ", "Tipo",
                    "Partição"))
@@ -58,36 +74,20 @@ def main():
             part.fstype,
             part.mountpoint))
 
-        device = str(part.device)
-        usoTotal = str(bytesParaMB(uso.total))
-        usoUsado = str(bytesParaMB(uso.used))
-        usoLivre = str(bytesParaMB(uso.free))
-        porcent = str(int(uso.percent))
-        fs = str(part.fstype)
-        mount = str(part.mountpoint)
 
-        f = open("SysInfo.txt", "w+")
-        f.writelines(device + ' '),
-        f.writelines(usoTotal + ' '),
-        f.writelines(usoLivre + ' '),
-        f.write(usoUsado + ' '),
-        f.write(porcent + ' '),
-        f.write(fs + ' '),
-        f.write(mount + ' '),
+        f = open("SysInfo.txt", "a+")
+        f.write(str(templ % (
+            part.device,
+            bytesParaMB(uso.total),
+            bytesParaMB(uso.used),
+            bytesParaMB(uso.free),
+            int(uso.percent),
+            part.fstype,
+            part.mountpoint + '\n')))
+        # f.write('\n')
         f.close()
 
-        # pdfKIT = pdfkit.from_string('============================ Unidades de Armazenamento =============================', 'SysInfo.pdf')
-        # pdfkit.from_string(templ % (
-        #     part.device,
-        #     bytesParaMB(uso.total),
-        #     bytesParaMB(uso.used),
-        #     bytesParaMB(uso.free),
-        #     int(uso.percent),
-        #     part.fstype,
-        #     part.mountpoint), 'SysInfo.pdf')
-
-        print(
-            "-------------------------------------------------------------------------------------------------------------")
+        print("-------------------------------------------------------------------------------------------------------------")
 
 
 # def printPDF():
