@@ -2,6 +2,7 @@ import sys
 import os
 import psutil
 import platform
+import cpuinfo
 
 
 # import pdfkit
@@ -31,10 +32,24 @@ def infoBasicas():
     f.write('SO: ' + so + '\n')
     f.write('Versão do SO: ' + versaoSO + '\n')
     f.write('Nome da Máquina: ' + host + '\n')
-    f.write('Processador: ' + arquitetura + '\n')
+    f.write('Arquitetura: ' + arquitetura + '\n')
     f.write('\n')
     f.close()
 
+
+# Pega as informações do processador
+def cpuInfo():
+    infoMarca = str(cpuinfo.get_cpu_info()['brand'])
+    infoFrequencia = str(cpuinfo.get_cpu_info()['hz_advertised'])
+    print(infoMarca)
+    print(infoFrequencia)
+    f = open('SysInfo.txt', 'a+')
+    f.write('======================== Informações do Processador ==============================\n\n')
+    f.write('Marca/Modelo do Processador: ' + infoMarca)
+    f.write('\n')
+    f.write('Frequência: ' + infoFrequencia)
+    f.write('\n\n')
+    f.close()
 
 def bytesParaMB(n):
     #Conversão de Bytes para MB
@@ -115,6 +130,7 @@ def main():
 
 if __name__ == '__main__':
     infoBasicas()
+    cpuInfo()
     main()
 
 print(" ")
