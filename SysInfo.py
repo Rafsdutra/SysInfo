@@ -189,7 +189,11 @@ class PDF(FPDF):
     def arquivo_corpo(self, name):
         # Lê arquivo de texto
         with open(name, 'rb') as fh:
-            txt = fh.read().decode('windows-1252')
+            try:
+                txt = fh.read().decode('UTF-8')
+            except UnicodeDecodeError:
+                    txt = fh.read().decode('gbk')
+
         # Times 12
         self.set_font('Times', '', 12)
         # Texto justificado do output
