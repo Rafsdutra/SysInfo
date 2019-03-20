@@ -42,7 +42,7 @@ def bytesParaMB(n):
     # >>> bytesParaMB(100001221)
     # '95.4M'
     #
-    simbolos = ('KB', 'MB', 'GB', 'Tb', 'P', 'E', 'Z', 'Y')
+    simbolos = ('KB', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
     prefix = {}
     for i, s in enumerate(simbolos):
         prefix[s] = 1 << (i + 1) * 10
@@ -190,9 +190,9 @@ class PDF(FPDF):
         # Lê arquivo de texto
         with open(name, 'rb') as fh:
             try:
-                txt = fh.read().decode('UTF-8')
+                txt = fh.read().decode('windows-1252')
             except UnicodeDecodeError:
-                    txt = fh.read().decode('gbk')
+                txt = fh.read().decode('UTF-8')
 
         # Times 12
         self.set_font('Times', '', 12)
@@ -217,11 +217,11 @@ pdf.print_arquivo(1, 'Especificações', 'SysInfo.txt')
 pdf.output('SysInfo.pdf', 'F')
 
 if __name__ == '__main__':
-    infoBasicas()
-    cpuInfo()
-    ramInfo()
+    print(infoBasicas())
+    print(cpuInfo())
+    print(ramInfo())
     # HDinfo()
-    main()
+    print(main())
     PDF()
 
-print(" ")
+
