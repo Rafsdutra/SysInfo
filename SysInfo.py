@@ -42,7 +42,7 @@ def bytesParaMB(n):
     # >>> bytesParaMB(100001221)
     # '95.4M'
     #
-    simbolos = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    simbolos = ('K', 'MB', 'GB', 'T', 'P', 'E', 'Z', 'Y')
     prefix = {}
     for i, s in enumerate(simbolos):
         prefix[s] = 1 << (i + 1) * 10
