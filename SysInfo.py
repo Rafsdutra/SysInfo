@@ -11,9 +11,9 @@ def infoBasicas():
     # ============================== Tela ========================================
     print(" ")
     print("============================ Informações Básicas ===============================")
+    print('Host     :', platform.node())
     print('SO   :', platform.system())
     print('Versão do SO  :', platform.release())
-    print('Host     :', platform.node())
     print('Arquitetura:', platform.processor())
     print(" ")
     # ==============================================================================
@@ -27,12 +27,30 @@ def infoBasicas():
     # Inserção das informações no file txt
     f = open('SysInfo.txt', 'a+')
     f.write('============================ Informações Básicas ===============================\n')
+    f.write('Nome da Máquina: ' + host + '\n')
     f.write('SO: ' + so + '\n')
     f.write('Versão do SO: ' + versaoSO + '\n')
-    f.write('Nome da Máquina: ' + host + '\n')
     f.write('Arquitetura: ' + arquitetura + '\n')
     f.write('\n')
     f.close()
+
+
+# Conversão de Bytes para MB
+def bytesParaMB(n):
+    # >>> bytesParaMB(10000)
+    # '9.8K'
+    # >>> bytesParaMB(100001221)
+    # '95.4M'
+    #
+    simbolos = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    prefix = {}
+    for i, s in enumerate(simbolos):
+        prefix[s] = 1 << (i + 1) * 10
+    for s in reversed(simbolos):
+        if n >= prefix[s]:
+            valor = float(n) / prefix[s]
+            return '%.1f%s' % (valor, s)
+    return "%sB" % n
 
 
 # Pega as informações do processador
@@ -51,34 +69,44 @@ def cpuInfo():
     f.write('\n\n')
     f.close()
 
-#Conversão de Bytes para MB
-def bytesParaMB(n):
 
-    # >>> bytesParaMB(10000)
-    # '9.8K'
-    # >>> bytesParaMB(100001221)
-    # '95.4M'
-    #
-    simbolos = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
-    prefix = {}
-    for i, s in enumerate(simbolos):
-        prefix[s] = 1 << (i + 1) * 10
-    for s in reversed(simbolos):
-        if n >= prefix[s]:
-            valor = float(n) / prefix[s]
-            return '%.1f%s' % (valor, s)
-    return "%sB" % n
+# def ramMB(nt):
+#     for nome in nt._fields:
+#         valor = getattr(nt, nome)
+#         if nome != 'percent':
+#             valor = bytesParaMB(valor)
+#             print('%-10s : %7s' % (nome.capitalize(), valor))
+
+
+#Função para mostrar as informações da memória RAM e Swap
+def ramInfo():
+
+    print('======================== Informações da Memória RAM ===============================\n\n')
+    f = open('SysInfo.txt', 'a+')
+
+    totalRAM = bytesParaMB(psutil.virtual_memory().total)
+    totalSWAP = bytesParaMB(psutil.swap_memory().total)
+
+    print('Total Memória RAM: ' + totalRAM)
+    print('Total Memória SWAP: ' + totalSWAP)
+
+    f.write('======================== Informações da Memória RAM ===============================\n\n')
+    f.write('Total Memória RAM: ' + totalRAM + '\n')
+    f.write('Total Memória SWAP: ' + totalSWAP + '\n')
+    f.write('\n')
+    f.close()
+    print('\n')
 
 
 def main():
     # ============================================ Tela ===========================================#
-    print("============================ Unidades de Armazenamento ====================================================")
+    print("============================ Unidades de Armazenamento ==================================")
     print(" ")
     # ============================================================================================= #
 
     # Inserção do cabeçalho do programa no file txt
     f = open("SysInfo.txt", "a+")
-    f.write("============================ Unidades de Armazenamento ====================================================\n\n")
+    f.write("============================ Unidades de Armazenamento =====================================\n\n")
     f.write("Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
     f.close()
 
@@ -105,8 +133,7 @@ def main():
             part.mountpoint))
         # ================================================= #
 
-
-        #Inserção das informações no file txt
+        # Inserção das informações no file txt
         f = open("SysInfo.txt", "a+")
         f.write(str(templ % (
             part.device,
@@ -119,10 +146,12 @@ def main():
         # f.write('\n')
         f.close()
 
-        print("-------------------------------------------------------------------------------------------------------------")
+        print(
+            "-------------------------------------------------------------------------------------------------------------")
 
 
 title = 'Especificações do PC - 9TALK'
+
 
 class PDF(FPDF):
     def header(self):
@@ -162,7 +191,10 @@ class PDF(FPDF):
     def arquivo_corpo(self, name):
         # Lê arquivo de texto
         with open(name, 'rb') as fh:
-            txt = fh.read().decode('UTF-8')
+            try:
+                txt = fh.read().decode('UTF-8')
+            except:
+                txt = fh.read().decode('latin1')
         # Times 12
         self.set_font('Times', '', 12)
         # Texto justificado do output
@@ -178,18 +210,17 @@ class PDF(FPDF):
         self.arquivo_doc(num, title)
         self.arquivo_corpo(name)
 
+
 pdf = PDF()
 pdf.set_title(title)
 pdf.set_author('Rafael')
 pdf.print_arquivo(1, 'Especificações', 'SysInfo.txt')
-
 pdf.output('SysInfo.pdf', 'F')
-
-
 
 if __name__ == '__main__':
     infoBasicas()
     cpuInfo()
+    ramInfo()
     # HDinfo()
     main()
     PDF()
