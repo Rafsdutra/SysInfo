@@ -100,13 +100,12 @@ def ramInfo():
 
 def main():
     # ============================================ Tela ===========================================#
-    print("============================ Unidades de Armazenamento ==================================")
-    print(" ")
-    # ============================================================================================= #
+    print("============================ Unidades de Armazenamento ===============================\n")
+   # ============================================================================================= #
 
     # Inserção do cabeçalho do programa no file txt
     f = open("SysInfo.txt", "a+")
-    f.write("============================ Unidades de Armazenamento =====================================\n\n")
+    f.write("============================ Armazenamento =============================\n")
     f.write("Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
     f.close()
 
@@ -143,11 +142,10 @@ def main():
             int(uso.percent),
             part.fstype,
             part.mountpoint + '\n')))
-        # f.write('\n')
+        f.write('\n')
         f.close()
 
-        print(
-            "-------------------------------------------------------------------------------------------------------------")
+        print("-------------------------------------------------------------------------------------------------------------")
 
 
 title = 'Especificações do PC - 9TALK'
@@ -191,10 +189,7 @@ class PDF(FPDF):
     def arquivo_corpo(self, name):
         # Lê arquivo de texto
         with open(name, 'rb') as fh:
-            try:
-                txt = fh.read().decode('UTF-8')
-            except:
-                txt = fh.read().decode('latin1')
+            txt = fh.read().decode('windows-1252')
         # Times 12
         self.set_font('Times', '', 12)
         # Texto justificado do output
