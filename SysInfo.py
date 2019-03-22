@@ -7,145 +7,126 @@ import ctypes
 from fpdf import FPDF
 
 
-def infoBasicas():
-    # ============================== Tela ========================================
-    print(" ")
-    print("============================ Informações Básicas ===============================")
-    print('Host     :', platform.node())
-    print('SO   :', platform.system())
-    print('Versão do SO  :', platform.release())
-    print('Arquitetura:', platform.processor())
-    print(" ")
-    # ==============================================================================
+class Print():
+    def infoBasicas(self):
+        # ============================== Tela ========================================
+        print(" ")
+        print("============================ Informações Básicas ===============================")
+        print('Host     :', platform.node())
+        print('SO   :', platform.system())
+        print('Versão do SO  :', platform.release())
+        print('Arquitetura:', platform.processor())
+        # ==============================================================================
 
-    #  Variáveis contendo as informações para serem usadas no file
-    so = str(platform.system())
-    versaoSO = str(platform.release())
-    host = str(platform.node())
-    arquitetura = str(platform.processor())
+    # Conversão de Bytes para MB
+    def bytesParaMB(self, n):
+        simbolos = ('KB', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+        prefix = {}
+        for i, s in enumerate(simbolos):
+            prefix = {}
+            for i, s in enumerate(simbolos):
+                prefix[s] = 1 << (i + 1) * 10
+            for s in reversed(simbolos):
+                if n >= prefix[s]:
+                    valor = float(n) / prefix[s]
+                    return '%.1f%s' % (valor, s)
+        return "%sB" % n
 
-    # Inserção das informações no file txt
-    f = open('SysInfo.txt', 'a+')
-    f.write('============================ Informações Básicas ===============================\n')
-    f.write('Nome da Máquina: ' + host + '\n')
-    f.write('SO: ' + so + '\n')
-    f.write('Versão do SO: ' + versaoSO + '\n')
-    f.write('Arquitetura: ' + arquitetura + '\n')
-    f.write('\n')
-    f.close()
+    # Pega as informações do processador
+    def cpuInfo(self):
+        infoMarca = str(cpuinfo.get_cpu_info()['brand'])
+        infoFrequencia = str(cpuinfo.get_cpu_info()['hz_advertised'])
 
+        print('======================== Informações do Processador ==============================\n\n')
+        print('Marca/Modelo do Processador: ' + infoMarca)
+        print('Frequência: ' + infoFrequencia)
 
-# Conversão de Bytes para MB
-def bytesParaMB(n):
-    # >>> bytesParaMB(10000)
-    # '9.8K'
-    # >>> bytesParaMB(100001221)
-    # '95.4M'
-    #
-    simbolos = ('KB', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
-    prefix = {}
-    for i, s in enumerate(simbolos):
-        prefix[s] = 1 << (i + 1) * 10
-    for s in reversed(simbolos):
-        if n >= prefix[s]:
-            valor = float(n) / prefix[s]
-            return '%.1f%s' % (valor, s)
-    return "%sB" % n
+    # Função para mostrar as informações da memória RAM e Swap
+    def ramInfo(self):
+        print('======================== Informações da Memória RAM ===============================\n\n')
+        totalRAM = self.bytesParaMB(psutil.virtual_memory().total)
+        totalSWAP = self.bytesParaMB(psutil.swap_memory().total)
+        print('Total Memória RAM: ' + totalRAM)
+        print('Total Memória SWAP: ' + totalSWAP)
 
+    def main(self, ):
 
-# Pega as informações do processador
-def cpuInfo():
-    infoMarca = str(cpuinfo.get_cpu_info()['brand'])
-    infoFrequencia = str(cpuinfo.get_cpu_info()['hz_advertised'])
-    print('======================== Informações do Processador ==============================\n\n')
-    print('Marca/Modelo do Processador: ' + infoMarca)
-    print('Frequência: ' + infoFrequencia)
-    print('\n\n')
-    f = open('SysInfo.txt', 'a+')
-    f.write('======================== Informações do Processador ==============================\n\n')
-    f.write('Marca/Modelo do Processador: ' + infoMarca)
-    f.write('\n')
-    f.write('Frequência: ' + infoFrequencia)
-    f.write('\n\n')
-    f.close()
+        global part, uso
 
+        # Variáveis infoBasicas
+        so = str(platform.system())
+        versaoSO = str(platform.release())
+        host = str(platform.node())
+        arquitetura = str(platform.processor())
 
-# def ramMB(nt):
-#     for nome in nt._fields:
-#         valor = getattr(nt, nome)
-#         if nome != 'percent':
-#             valor = bytesParaMB(valor)
-#             print('%-10s : %7s' % (nome.capitalize(), valor))
+        # Variáveis cpuInfo
 
+        infoMarca = str(cpuinfo.get_cpu_info()['brand'])
+        infoFrequencia = str(cpuinfo.get_cpu_info()['hz_advertised'])
 
-#Função para mostrar as informações da memória RAM e Swap
-def ramInfo():
+        # Variáveis ramInfo
 
-    print('======================== Informações da Memória RAM ===============================\n\n')
-    f = open('SysInfo.txt', 'a+')
+        totalRAM = self.bytesParaMB(psutil.virtual_memory().total)
+        totalSWAP = self.bytesParaMB(psutil.swap_memory().total)
 
-    totalRAM = bytesParaMB(psutil.virtual_memory().total)
-    totalSWAP = bytesParaMB(psutil.swap_memory().total)
+        # ================================= Tela =========================================#
+        print('======================== Armazenamento ===============================\n')
+        templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
+        print(templ % ("Dispositivo", "Total", "Usado", "Livre", "Uso ", "Tipo",
+                       "Partição"))
+        # ============================================================================== #
 
-    print('Total Memória RAM: ' + totalRAM)
-    print('Total Memória SWAP: ' + totalSWAP)
-
-    f.write('======================== Informações da Memória RAM ===============================\n\n')
-    f.write('Total Memória RAM: ' + totalRAM + '\n')
-    f.write('Total Memória SWAP: ' + totalSWAP + '\n')
-    f.write('\n')
-    f.close()
-    print('\n')
-
-
-def main():
-    # ============================================ Tela ===========================================#
-    print("============================ Unidades de Armazenamento ===============================\n")
-   # ============================================================================================= #
-
-    # Inserção do cabeçalho do programa no file txt
-    f = open("SysInfo.txt", "a+")
-    f.write("============================ Armazenamento =============================\n")
-    f.write("Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
-    f.close()
-
-    templ = "%-17s %8s %8s %8s %5s%% %9s  %s"
-    # ====================================== Tela ================================== #
-    print(templ % ("Dispositivo", "Total", "Usado", "Livre", "Uso ", "Tipo",
-                   "Partição"))
-    # ============================================================================== #
-
-    # Laço contendo partições que não sejam CD-ROM
-    for part in psutil.disk_partitions(all=False):
-        if os.name == 'nt':
-            if 'cdrom' in part.opts == '':
-                continue
-        uso = psutil.disk_usage(part.mountpoint)
-        # ====================== Tela ===================== #
-        print(templ % (
-            part.device,
-            bytesParaMB(uso.total),
-            bytesParaMB(uso.used),
-            bytesParaMB(uso.free),
-            int(uso.percent),
-            part.fstype,
-            part.mountpoint))
-        # ================================================= #
-
-        # Inserção das informações no file txt
-        f = open("SysInfo.txt", "a+")
-        f.write(str(templ % (
-            part.device,
-            bytesParaMB(uso.total),
-            bytesParaMB(uso.used),
-            bytesParaMB(uso.free),
-            int(uso.percent),
-            part.fstype,
-            part.mountpoint + '\n')))
+        # Inserção das informações no txt
+        f = open('SysInfo.txt', 'a+')
+        f.write('============================ Informações Básicas ===============================\n')
+        f.write('Nome da Máquina: ' + host + '\n')
+        f.write('SO: ' + so + '\n')
+        f.write('Versão do SO: ' + versaoSO + '\n')
+        f.write('Arquitetura: ' + arquitetura + '\n')
         f.write('\n')
-        f.close()
+        f.write('\n')
+        f.write('======================== Informações do Processador ==============================\n\n')
+        f.write('Marca/Modelo do Processador: ' + infoMarca)
+        f.write('\n')
+        f.write('Frequência: ' + infoFrequencia)
+        f.write('\n\n')
+        f.write('======================== Informações da Memória RAM ===============================\n\n')
+        f.write('Total Memória RAM: ' + totalRAM + '\n')
+        f.write('Total Memória SWAP: ' + totalSWAP + '\n')
+        f.write('\n')
+        f.write("============================ Armazenamento =============================\n")
+        f.write(
+            "Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
+        # Laço contendo partições que não sejam CD-ROM
+        for part in psutil.disk_partitions(all=False):
+            if os.name == 'nt':
+                if 'cdrom' in part.opts == '':
+                    continue
+            uso = psutil.disk_usage(part.mountpoint)
 
-        print("-------------------------------------------------------------------------------------------------------------")
+            # ====================== Tela ===================== #
+            print(templ % (
+                part.device,
+                self.bytesParaMB(uso.total),
+                self.bytesParaMB(uso.used),
+                self.bytesParaMB(uso.free),
+                int(uso.percent),
+                part.fstype,
+                part.mountpoint))
+            # ================================================= #
+
+            f.write(str(templ % (
+                part.device,
+                self.bytesParaMB(uso.total),
+                self.bytesParaMB(uso.used),
+                self.bytesParaMB(uso.free),
+                int(uso.percent),
+                part.fstype,
+                part.mountpoint + '\n')))
+            f.write('--------------------------------------------------------------------------------------')
+            f.write('\n')
+
+        f.close()
 
 
 title = 'Especificações do PC - 9TALK'
@@ -190,9 +171,9 @@ class PDF(FPDF):
         # Lê arquivo de texto
         with open(name, 'rb') as fh:
             try:
-                txt = fh.read().decode('windows-1252')
-            except UnicodeDecodeError:
                 txt = fh.read().decode('UTF-8')
+            except UnicodeDecodeError:
+                txt = fh.read().decode('windows-1252')
 
         # Times 12
         self.set_font('Times', '', 12)
@@ -212,16 +193,17 @@ class PDF(FPDF):
 
 pdf = PDF()
 pdf.set_title(title)
-pdf.set_author('Rafael')
+pdf.set_author('9Talk')
 pdf.print_arquivo(1, 'Especificações', 'SysInfo.txt')
 pdf.output('SysInfo.pdf', 'F')
 
 if __name__ == '__main__':
-    print(infoBasicas())
-    print(cpuInfo())
-    print(ramInfo())
-    # HDinfo()
-    print(main())
+    # dir = os.getcwd()
+    # files = os.listdir()
+    # print(dir, files)
+    prt = Print()
+    print(prt.infoBasicas())
+    print(prt.cpuInfo())
+    print(prt.ramInfo())
+    print(prt.main())
     PDF()
-
-
