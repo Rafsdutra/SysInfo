@@ -78,12 +78,11 @@ class Print():
 
         # Inserção das informações no txt
         f = open('SysInfo.txt', 'a+')
-        f.write('============================ Informações Básicas ===============================\n')
+        f.write('============================ Informações Básicas ===============================\n\n')
         f.write('Nome da Máquina: ' + host + '\n')
         f.write('SO: ' + so + '\n')
         f.write('Versão do SO: ' + versaoSO + '\n')
         f.write('Arquitetura: ' + arquitetura + '\n')
-        f.write('\n')
         f.write('\n')
         f.write('======================== Informações do Processador ==============================\n\n')
         f.write('Marca/Modelo do Processador: ' + infoMarca)
@@ -94,9 +93,9 @@ class Print():
         f.write('Total Memória RAM: ' + totalRAM + '\n')
         f.write('Total Memória SWAP: ' + totalSWAP + '\n')
         f.write('\n')
-        f.write("============================ Armazenamento =============================\n")
+        f.write("============================ Armazenamento =============================\n\n")
         f.write(
-            "Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n")
+            "Dispositivo" + "          " + "Total" + "     " + "Usado" + "    " + "Livre" + "   " + "Uso " + "   " + "Tipo" + "   " + "Partição\n\n")
         # Laço contendo partições que não sejam CD-ROM
         for part in psutil.disk_partitions(all=False):
             if os.name == 'nt':
@@ -135,14 +134,15 @@ title = 'Especificações do PC - 9TALK'
 class PDF(FPDF):
     def header(self):
         # Arial bold 15
-        self.set_font('Arial', 'B', 15)
+        self.image('9talk.png', 10, 8, 33)
+        self.set_font('Arial', 'B', 10)
         #  Calcula largura e posição do titulo
         w = self.get_string_width(title) + 6
         self.set_x((210 - w) / 2)
         # Cores do Frame, do background e dos textos
         self.set_draw_color(0, 80, 180)
-        self.set_fill_color(230, 230, 0)
-        self.set_text_color(220, 50, 50)
+        self.set_fill_color(255, 255, 255)
+        self.set_text_color(0, 0, 0)
         # Espessura do frame (1 mm)
         self.set_line_width(1)
         # TITULO
@@ -158,7 +158,7 @@ class PDF(FPDF):
         # Cor do texto em cinza
         self.set_text_color(128)
         # Número da página
-        self.cell(0, 10, 'Página:  ' + str(self.page_no()), 0, 0, 'C')
+        self.cell(0, 10, 'Página  ' + str(self.page_no()), 0, 0, 'C')
 
     def arquivo_doc(self, num, label):
         # Arial 12
